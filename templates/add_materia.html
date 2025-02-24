@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% block title %}Agregar Materia{% endblock %}
+
+{% block content %}
+    <h2>Agregar Materia</h2>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="{{ form.nombre.id }}">{{ form.nombre.label }}</label>
+            {{ form.nombre(class="form-control") }}
+            {% if form.nombre.errors %}
+                <ul class="errors">
+                    {% for error in form.nombre.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.codigo.id }}">{{ form.codigo.label }}</label>
+            {{ form.codigo(class="form-control") }}
+            {% if form.codigo.errors %}
+                <ul class="errors">
+                    {% for error in form.codigo.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.creditos.id }}">{{ form.creditos.label }}</label>
+            {{ form.creditos(class="form-control") }}
+            {% if form.creditos.errors %}
+                <ul class="errors">
+                    {% for error in form.creditos.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.descripcion.id }}">{{ form.descripcion.label }}</label>
+            {{ form.descripcion(class="form-control") }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.id_profesor.id }}">{{ form.id_profesor.label }}</label>
+            {{ form.id_profesor(class="form-control") }}
+            {% if form.id_profesor.errors %}
+                <ul class="errors">
+                    {% for error in form.id_profesor.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar</button>
+        <a href="{{ url_for('list_materias') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %} 

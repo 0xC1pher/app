@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flask_app
+    command: flask run --host=0.0.0.0
+    volumes:
+      - .:/app  # Monta el directorio actual al contenedor
+    ports:
+      - "5000:5000"  # Puerto host:puerto contenedor
+    env_file:
+      - .env  # Archivo de variables de entorno
+    depends_on:
+      - db  # Espera a que el servicio 'db' esté listo
+    deploy:
+      resources:
+        limits:
+          cpus: '2'  # Asigna 2 CPUs
+          memory: 1G  # Asigna 1GB de memoria
+    healthcheck:  # Opcional: Verifica el estado del servicio
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    restart: always  # Reinicia automáticamente si cae
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: asistencia_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistencia de datos
+    ports:
+      - "5432:5432"
+    healthcheck:  # Verifica que el servicio esté listo
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:  # Define el volumen persistente para PostgreSQL

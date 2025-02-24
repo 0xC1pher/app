@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Sistema de Asistencia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background-color: #f0f8ff; /* Pastel Light Blue */
+            color: #333; /* Dark gray text for better contrast */
+            padding-top: 60px; /* Ajuste para la barra de navegación fija */
+        }
+        .navbar {
+            background-color: #e0ffff; /* Pastel Cyan for navbar */
+        }
+        .navbar-brand, .nav-link {
+            color: white !important;
+        }
+        .nav-link:hover {
+            color: #f0db4f !important;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        .flash-messages .alert {
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .flash-messages .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .flash-messages .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(0, 0, 0, 0.7); /* Darker text for navbar links */
+        }
+        .navbar-dark .navbar-brand {
+            color: rgba(0, 0, 0, 0.9); /* Darker text for navbar brand */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Sistema de Asistencia</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard_administrador') }}">Dashboard Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard_profesor') }}">Dashboard Profesor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('list_estudiantes') }}">Estudiantes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('list_materias') }}">Materias</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('gestion_usuarios') }}">Usuarios</a>
+                    </li>
+                    {% if session['usuario_id'] %}
+                        {% set usuario = Usuario.query.get(session['usuario_id']) %}
+                        {% if usuario and usuario.rol == 'Profesor' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('registrar_asistencia') }}">Registrar Asistencia</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('reporte_asistencia') }}">Reporte de Asistencia</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5 pt-3">
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

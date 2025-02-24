@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Registrar Asistencia
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Registrar Asistencia</h2>
+    <form method="POST" action="{{ url_for('registrar_asistencia') }}">
+        <div class="mb-3">
+            <label for="curso_id" class="form-label">Seleccionar Curso:</label>
+            <select class="form-select" id="curso_id" name="curso_id" required>
+                <option value="">-- Seleccionar Curso --</option>
+                {% for curso in cursos %}
+                    <option value="{{ curso.id }}">{{ curso.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="fecha_clase" class="form-label">Fecha de la Clase:</label>
+            <input type="date" class="form-control" id="fecha_clase" name="fecha_clase" required>
+        </div>
+
+        {% if estudiantes %}
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Estudiante</th>
+                        <th>Asistencia</th>
+                        <th>Justificación (Opcional)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for estudiante in estudiantes %}
+                    <tr>
+                        <td>{{ estudiante.nombre }} {{ estudiante.apellido }}</td>
+                        <td>
+                            <select class="form-select form-select-sm" name="asistencia_estudiante_{{ estudiante.id }}" required>
+                                <option value="Presente">Presente</option>
+                                <option value="Ausente">Ausente</option>
+                                <option value="Justificada">Justificada</option>
+                            </select>
+                        </td>
+                        <td>
+                            <textarea class="form-control form-control-sm" name="justificacion_estudiante_{{ estudiante.id }}" rows="1"></textarea>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Asistencia</button>
+        {% else %}
+            <p>No hay estudiantes inscritos en este curso.</p>
+        {% endif %}
+    </form>
+</div>
+{% endblock %} 

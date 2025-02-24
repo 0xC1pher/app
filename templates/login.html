@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block title %}Iniciar Sesión{% endblock %}
+{% block content %}
+    <h2>Iniciar Sesión</h2>
+    <form method="post">
+        {{ form.hidden_tag() }}
+
+        <!-- Mensaje de error general -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="form-group">
+            <label for="correo">Correo Electrónico</label>
+            <input type="email" class="form-control" id="correo" name="correo" required>
+            {% if form.correo.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.correo.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="contrasena">Contraseña</label>
+            <input type="password" class="form-control" id="contrasena" name="contrasena" required>
+            {% if form.contrasena.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.contrasena.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="tipo_usuario">Tipo de Usuario</label>
+            <select class="form-control" id="tipo_usuario" name="tipo_usuario" required>
+                <option value="Profesor">Profesor</option>
+                <option value="Administrador">Administrador</option>
+            </select>
+            {% if form.tipo_usuario.errors %}
+                <div class="invalid-feedback">
+                    {% for error in form.tipo_usuario.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+        <a href="{{ url_for('register') }}" class="btn btn-link">Registrarse</a>
+    </form>
+{% endblock %}

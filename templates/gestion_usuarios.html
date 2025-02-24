@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}Gestión de Usuarios{% endblock %}
+
+{% block content %}
+    <h2>Gestión de Usuarios</h2>
+    <form method="post">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="correo">Correo Electrónico</label>
+            <input type="email" class="form-control" id="correo" name="correo" required>
+        </div>
+        <div class="form-group">
+            <label for="contrasena">Contraseña</label>
+            <input type="password" class="form-control" id="contrasena" name="contrasena" required>
+        </div>
+        <div class="form-group">
+            <label for="tipo_usuario">Tipo de Usuario</label>
+            <select class="form-control" id="tipo_usuario" name="tipo_usuario" required>
+                <option value="Profesor">Profesor</option>
+                <option value="Administrador">Administrador</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Crear Usuario</button>
+    </form>
+
+    <h3>Lista de Usuarios</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Tipo de Usuario</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.nombre }}</td>
+                    <td>{{ usuario.correo }}</td>
+                    <td>{{ usuario.tipo_usuario }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %} 

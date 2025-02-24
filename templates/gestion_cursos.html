@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Gestión de Cursos
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Gestión de Cursos</h2>
+    <div class="mb-3">
+        <a href="{{ url_for('crear_curso') }}" class="btn btn-primary">Crear Nuevo Curso</a>
+    </div>
+    {% if cursos %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre del Curso</th>
+                    <th>Descripción</th>
+                    <th>Materias</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for curso in cursos %}
+                    <tr>
+                        <td>{{ curso.id }}</td>
+                        <td>{{ curso.nombre }}</td>
+                        <td>{{ curso.descripcion }}</td>
+                        <td>
+                            {% for materia in curso.materias %}
+                                <span class="badge bg-secondary">{{ materia.nombre }}</span>
+                            {% else %}
+                                Ninguna
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('editar_curso', curso_id=curso.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="{{ url_for('eliminar_curso', curso_id=curso.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este curso?');">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay cursos registrados.</p>
+    {% endif %}
+</div>
+{% endblock %} 

@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block title %}Lista de Estudiantes{% endblock %}
+
+{% block content %}
+    <h2>Lista de Estudiantes</h2>
+    <a href="{{ url_for('register_estudiante') }}" class="btn btn-success mb-3">Registrar Nuevo Estudiante</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for estudiante in estudiantes %}
+                <tr>
+                    <td>{{ estudiante.nombre }}</td>
+                    <td>{{ estudiante.correo }}</td>
+                    <td>{{ estudiante.fecha_nacimiento }}</td>
+                    <td>{{ estudiante.direccion }}</td>
+                    <td>{{ estudiante.telefono }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %} 

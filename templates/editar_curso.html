@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Editar Curso
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Editar Curso</h2>
+    <form method="POST" action="{{ url_for('editar_curso', curso_id=curso.id) }}">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.nombre.label(class="form-label") }}
+            {{ form.nombre(class="form-control", value=curso.nombre) }}
+            {% if form.nombre.errors %}
+                <ul class="errors">
+                    {% for error in form.nombre.errors %}
+                        <li class="text-danger">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            {{ form.descripcion.label(class="form-label") }}
+            {{ form.descripcion(class="form-control", value=curso.descripcion) }}
+            {% if form.descripcion.errors %}
+                <ul class="errors">
+                    {% for error in form.descripcion.errors %}
+                        <li class="text-danger">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            {{ form.materias.label(class="form-label") }}
+            {{ form.materias(class="form-select", multiple=True) }}
+            {% if form.materias.errors %}
+                <ul class="errors">
+                    {% for error in form.materias.errors %}
+                        <li class="text-danger">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{{ url_for('gestion_cursos') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %} 
